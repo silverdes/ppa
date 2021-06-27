@@ -1,6 +1,5 @@
 <template>
-    <div class="flex flex-col bg-gray-100 sm:justify-center items-center pb-6 h-screen">
-
+    <div class="py-10 bg-gray-100 sm:justify-center items-center h-screen">
         <div class="bg-gray-100">
             <slot />
         </div>
