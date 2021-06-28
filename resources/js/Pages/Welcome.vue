@@ -17,8 +17,9 @@
     
 <div class="mx-20 items-top dark:bg-gray-900 sm:items-center sm:pt-0">
         <div class="grid gap-6 grid-cols-3" >
-              <div class="bg-white shadow-xl rounded-b-lg w-full" v-for="property in properties.data" :key="property.id">
-                    <div class="bg-cover bg-center h-56 p-4 rounded-t-lg" style="background-image: url(https://images.unsplash.com/photo-1475855581690-80accde3ae2b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80)">
+              <div class="bg-white shadow-xl rounded-b-lg w-full" v-for="property in userProperties.data" :key="property.id">
+                    <div class="object-cover bg-center h-56 p-4 rounded-t-lg mb-10">
+                    <img :src="property.image" class="object-cover" alt="">
                         <div class="flex justify-end">
                             <svg class="h-6 w-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"></path>
@@ -26,7 +27,8 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <p class="text-sm font-bold text-gray-700">{{property.title}} • {{property.created_at}}</p>
+                        <p class="text-sm font-bold text-gray-700">{{property.title}}</p>
+                        <p> <i class="icofont-clock-time"></i> {{property.created_at}}</p>
                         <p class="text-3xl text-gray-900">${{property.price}}</p>
                         <p class="text-gray-700">{{property.address}}</p>
                     </div>
@@ -117,6 +119,7 @@
 <script>
     import Guest from '@/Layouts/Guest'
     import Pagination from '@/Components/Pagination'
+    import {debounce} from 'lodash/function'
     export default {
         layout:Guest,
         props: {
@@ -126,8 +129,30 @@
             phpVersion: String,
             properties: Object,
         },
+        data(){
+            return{
+                userProperties: this.properties
+            }
+        },
         components:{
             Pagination
+        },
+        mounted(){
+            window.addEventListener('scroll', debounce((e) => {
+                let pixelsFromBottom = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight;
+                if(pixelsFromBottom < -400) {
+
+                    axios.get(this.userProperties.next_page_url).then(response => {
+                        this.userProperties = {
+                            ...response.data,
+                            data: [...this.userProperties.data, ...response.data.data]
+                        }
+                    }),
+                    console.log(pixelsFromBottom);
+                 }if(pixelsFromBottom == 0){
+                     console.log(this.userProperties)
+                 }
+            },100));
         }
     }
 </script>

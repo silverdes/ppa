@@ -20,6 +20,7 @@ class CreatePropertiesTable extends Migration
             $table->integer('bathrooms');
             $table->integer('price');
             $table->string('address');
+            $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

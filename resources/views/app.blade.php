@@ -12,6 +12,10 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        
+        <!-- Icons --->
+        <link rel="stylesheet" href="{{ url('icofont/icofont.min.css') }}">
+
 
         <!-- Scripts -->
         @routes

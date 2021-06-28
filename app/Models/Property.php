@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Property extends Model
 {
     use HasFactory;
-    protected $fillable = ['title','bedrooms', 'bathrooms', 'price', 'address', 'user_id'];
+    protected $fillable = [
+        'title',
+        'bedrooms',
+        'bathrooms',
+        'price',
+        'address',
+        'user_id',
+    ];
 
     public function user()
     {

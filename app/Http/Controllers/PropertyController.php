@@ -11,13 +11,19 @@ use Illuminate\Support\Facades\DB;
 class PropertyController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $properties = Property::orderBy('id', 'desc')->paginate(2);
+        
+        $properties = Property::orderBy('id', 'asc')->paginate(6);
+
+        if($request->wantsJson()){
+            return $properties;
+        }
+
         return Inertia::render('Welcome', [
             'properties' => $properties,
         ]);
     }
 
-    
+
 }
