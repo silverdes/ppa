@@ -1,27 +1,11 @@
 <template>
-        <!-- <div v-if="canLogin" class="flex justify-end text-right px-6 py-4 sm:block">
-            <inertia-link v-if="auth.user" href="/dashboard" class="text-sm text-gray-700 underline">
-                Dashboard
-            </inertia-link>
-
-            <template v-else>
-                <inertia-link :href="route('login')" class="text-sm text-gray-700 underline">
-                    Log in
-                </inertia-link>
-
-                <inertia-link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-gray-700 underline">
-                    Register
-                </inertia-link>
-            </template>
-        </div> -->
-    
 <div class="mx-20 items-top dark:bg-gray-900 sm:items-center sm:pt-0">
         <div class="grid gap-6 grid-cols-3" >
               <div class="bg-white shadow-xl rounded-b-lg w-full" v-for="property in userProperties.data" :key="property.id">
-                    <div class="object-cover bg-center h-56 p-4 rounded-t-lg mb-10">
+                    <div class="bg-cover bg-center h-56 p-4 rounded-t-lg mb-10">
                     <img :src="property.image" class="object-cover" alt="">
                         <div class="flex justify-end">
-                            <svg class="h-6 w-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <svg class="h-6 w-6 text-white fill-current z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"></path>
                             </svg>
                         </div>
@@ -48,86 +32,21 @@
                     </div>
                 </div>
         </div>
-<pagination class="mt-6" :links="properties.links" />
 </div>
+
 </template>
 
 <style scoped>
-    .bg-gray-100 {
-        background-color: #f7fafc;
-        background-color: rgba(247, 250, 252, var(--tw-bg-opacity));
-    }
-
-    .border-gray-200 {
-        border-color: #edf2f7;
-        border-color: rgba(237, 242, 247, var(--tw-border-opacity));
-    }
-
-    .text-gray-400 {
-        color: #cbd5e0;
-        color: rgba(203, 213, 224, var(--tw-text-opacity));
-    }
-
-    .text-gray-500 {
-        color: #a0aec0;
-        color: rgba(160, 174, 192, var(--tw-text-opacity));
-    }
-
-    .text-gray-600 {
-        color: #718096;
-        color: rgba(113, 128, 150, var(--tw-text-opacity));
-    }
-
-    .text-gray-700 {
-        color: #4a5568;
-        color: rgba(74, 85, 104, var(--tw-text-opacity));
-    }
-
-    .text-gray-900 {
-        color: #1a202c;
-        color: rgba(26, 32, 44, var(--tw-text-opacity));
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .dark\:bg-gray-800 {
-            background-color: #2d3748;
-            background-color: rgba(45, 55, 72, var(--tw-bg-opacity));
-        }
-
-        .dark\:bg-gray-900 {
-            background-color: #1a202c;
-            background-color: rgba(26, 32, 44, var(--tw-bg-opacity));
-        }
-
-        .dark\:border-gray-700 {
-            border-color: #4a5568;
-            border-color: rgba(74, 85, 104, var(--tw-border-opacity));
-        }
-
-        .dark\:text-white {
-            color: #fff;
-            color: rgba(255, 255, 255, var(--tw-text-opacity));
-        }
-
-        .dark\:text-gray-400 {
-            color: #cbd5e0;
-            color: rgba(203, 213, 224, var(--tw-text-opacity));
-        }
-    }
 </style>
 
 <script>
     import Guest from '@/Layouts/Guest'
-    import Pagination from '@/Components/Pagination'
     import {debounce} from 'lodash/function'
     export default {
         layout:Guest,
         props: {
-            canLogin: Boolean,
-            canRegister: Boolean,
-            laravelVersion: String,
-            phpVersion: String,
             properties: Object,
+            canLogin:Object,
         },
         data(){
             return{
@@ -135,12 +54,12 @@
             }
         },
         components:{
-            Pagination
         },
         mounted(){
             window.addEventListener('scroll', debounce((e) => {
-                let pixelsFromBottom = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight;
-                if(pixelsFromBottom < -400) {
+                let pixelsFromBottom = window.innerHeight + window.scrollY - document.documentElement.offsetHeight;
+                console.log(pixelsFromBottom)
+                if(pixelsFromBottom > 400) {
 
                     axios.get(this.userProperties.next_page_url).then(response => {
                         this.userProperties = {

@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PropertyController;
 
 /*
@@ -16,18 +17,16 @@ use App\Http\Controllers\PropertyController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('welcome');
-Route::get('/home', [PropertyController::class,'index'])->name('Properties.index');
+Route::get('/', [PropertyController::class,'index'])->name('Properties.index');
+Route::get('/properties/create', [PropertyController::class, 'create'])->name('Properties.create');
+
+
+Route::post('properties/media', [MediaController::class, 'store'])->name('media.store');
+Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 require __DIR__.'/auth.php';

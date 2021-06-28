@@ -1,8 +1,5 @@
 <template>
-    <inertia-link :href="route('welcome')">
-        <application-logo class="mx-auto justify-center h-12 w-auto mb-10" />
-    </inertia-link>
-
+   
 <div class="flex mx-52 bg-white shadow-md overflow-hidden sm:rounded-lg px-10 py-10">
     <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
         {{ status }}
@@ -50,7 +47,6 @@
 </template>
 
 <script>
-    import ApplicationLogo from '@/Components/ApplicationLogo'
     import BreezeButton from '@/Components/Button'
     import BreezeGuestLayout from "@/Layouts/Guest"
     import BreezeInput from '@/Components/Input'
@@ -60,10 +56,8 @@
 
     export default {
         layout: BreezeGuestLayout,
-
         components: {
             BreezeButton,
-            ApplicationLogo,
             BreezeInput,
             BreezeCheckbox,
             BreezeLabel,

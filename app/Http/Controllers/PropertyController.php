@@ -6,7 +6,6 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Property;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PropertyController extends Controller
 {
@@ -23,6 +22,11 @@ class PropertyController extends Controller
         return Inertia::render('Welcome', [
             'properties' => $properties,
         ]);
+    }
+
+    public function create(): \Inertia\Response
+    {
+        return Inertia::render('RealEstates/Create');
     }
 
 
